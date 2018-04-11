@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/item_edit_mnemonic"
+          android:gravity="center"
+          android:privateImeOptions="defaultInputmode=english"
+          android:imeActionId="100"
+          android:inputType="text"
+          android:lines="1"
+          android:layout_margin="8dp"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+</EditText>

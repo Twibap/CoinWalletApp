@@ -68,7 +68,10 @@ public class MnemonicActivity extends AppCompatActivity implements View.OnClickL
             // 이미 사용중인 지갑이 있는 경우 새로고침 버튼을 비활성화 한다.
             mBtRefresh.setEnabled(false);
 
-            setRestore();
+            // 저장되어있는 연상 기호를 출력한다.
+            mRawSeed = new Gson().fromJson(sf.getString("rootSeed", null), DeterministicSeed.class);
+            mAdapterMnemonic.addAll(mRawSeed.getMnemonicCode());
+
 
         }
 

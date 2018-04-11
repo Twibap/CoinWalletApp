@@ -4,14 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import android.widget.Toast;
 
 /**
  * 저장된 사용자의 지갑 목록을 보여주는 화면이다.
@@ -34,10 +33,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                byte[] rootSeeds = getEntropy(128);
-
-                String text = bytesToHex(rootSeeds);
-                Snackbar.make(view, text, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Toast.makeText(MainActivity.this, "토스트 메시지", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -45,9 +41,16 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sf = getSharedPreferences("PrimitiveData",MODE_PRIVATE);
         Log.e(TAG, sf.getString("rootSeed", "Empty"));
         if (!sf.contains("rootSeed")) {
-            Intent intent = new Intent(this, MnemonicActivity.class);
-            startActivityForResult(intent, INIT_WALLET);
+            goMnemonicActivity();
         }
+    }
+
+    /**
+     * RawSeed의 연상기호를 백업할 수 있는 화면으로 이동한다.
+     */
+    private void goMnemonicActivity(){
+        Intent intent = new Intent(this, MnemonicActivity.class);
+        startActivityForResult(intent, INIT_WALLET);
     }
 
     @Override
@@ -61,42 +64,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 무작위 숫자열을 생성한다.
-     *
-     * @param bits
-     * @return
-     */
-    public byte[] getEntropy(int bits){
-        byte[] result = new byte[ bits/8 ];
-
-        SecureRandom random = null;
-        try {
-            random = SecureRandom.getInstance("SHA1PRNG");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        assert random != null;
-        random.nextBytes(result);
-
-        return result;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
-    /**
-     * Byte 배열을 Hex 표현으로 전환한다.
-     *
-     * https://stackoverflow.com/questions/9655181/how-to-convert-a-byte-array-to-a-hex-string-in-java
-     */
-    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
-    public static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_backup:
+                goMnemonicActivity();
+                break;
         }
-        return new String(hexChars);
+        return super.onOptionsItemSelected(item);
     }
-
 }
