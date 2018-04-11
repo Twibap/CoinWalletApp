@@ -70,7 +70,9 @@ public class MnemonicActivity extends AppCompatActivity implements View.OnClickL
 
             // 저장되어있는 연상 기호를 출력한다.
             mRawSeed = new Gson().fromJson(sf.getString("rootSeed", null), DeterministicSeed.class);
-            mAdapterMnemonic.addAll(mRawSeed.getMnemonicCode());
+            if (mRawSeed.getMnemonicCode() != null) {
+                mAdapterMnemonic.addAll(mRawSeed.getMnemonicCode());
+            }
 
 
         }
