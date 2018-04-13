@@ -2,6 +2,20 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="org.iptime.twd.twibapwalletapplication.WalletActivity">
+
+    <item
+        android:id="@+id/menu_backup"
+        android:title="백업/복원"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/menu_show_address"
+        android:title="수신 주소"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_show_address"
+        />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
